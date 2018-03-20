@@ -1,0 +1,8 @@
+# Ignore the Jupyter notebook file
+*.ipynb
+
+# Ignore the cache
+*__pycache__/
+
+# Ignore the checkpoints
+*.ipynb_checkpoints
