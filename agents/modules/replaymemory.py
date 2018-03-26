@@ -64,6 +64,8 @@ class ReplayMemory:
     def update_all_q_values(self):
         # TODO
 
+        self.q_values_old[:] =
+
     def prepare_sampling_prob(self, batch_size=128):
         # TODO
 
@@ -72,7 +74,7 @@ class ReplayMemory:
         Get a random batch of states and Q-values from the replay-memory.
         You must call prepare_sampling_prob() before calling this function,
         which also sets the batch-size.
-        
+
         The batch has been balanced so it contains states and Q-values
         that have both high and low estimation errors for the Q-values.
         This is done to both speed up and stabilize training of the
