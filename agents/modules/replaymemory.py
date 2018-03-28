@@ -62,12 +62,44 @@ class ReplayMemory:
             self.rewards[k] = np.clip(reward, -1.0, 1.0)
 
     def update_all_q_values(self):
-        # TODO
+        # Here it uses the order of those records to get the following state
 
-        self.q_values_old[:] =
+        self.q_values_old[:] = self.q_values[:]
+        for k in reversed(range(self.num_used-1)):
+            # For records in replay-memory
+            action = self.actions[k]
+            reward = self.rewards[k]
+            end_life = self.end_life[k]
+            end_episode = self.end_episode[k]
+
+            # Calculate the Q-value through the old, fixed network.
+            # And the value then will be used as the truth.
+            if end_life or end_episode:
+                action_value = reward
+            else:
+                action_value = reward + self.discount_factor * np.max(self.q_values_old[k+1])
+            self.estimation_errors[k] = abs(action_value-self.q_values[k, action])
+            # Update the q_values, this is the way to calculate action-value when sampling.
+            self.q_values[k, action] = action_value
+        self.print_statistics()
+
 
     def prepare_sampling_prob(self, batch_size=128):
-        # TODO
+        # Balancing of Q-values with high and low estimation errors.
+
+        # Since the memory has a pre-defined storage space
+        err = self.estimation_errors[0:self.num_used]
+
+        idx = err < self.error_threshold
+        self.idx_err_lo = np.squeeze(np.where(idx))
+        self.idx_err_hi = np.squeeze(np.where(np.logical_not(idx)))
+        prob_err_hi = len(self.idx_err_hi) / self.num_used
+
+        # Becasue those records with high err is much more meaning for the approximation
+        prob_err_hi = max(prob_err_hi, 0.5)
+
+        self.num_samples_err_hi = int(prob_err_hi * batch_size)
+        self.num_samples_err_lo = batch_size - self.num_samples_err_hi
 
     def random_batch(self):
         """
