@@ -12,7 +12,10 @@ The related article is [Implementation of RL Agent with Modular Perspective](htt
 
 ### Some articles about different modules:
 
-- [Experience Replay](http://fzruniverse.life/2018/03/25/Experience-Replay/): /agents/doc/ReplayMemory.ipynb
+More is coming later. You can check [here](http://fzruniverse.life/2018/03/23/Introduction/) to see the plan.
+
+- [More about OpenAI Gym](http://fzruniverse.life/2018/03/28/Have-more-fun-in-OpenAI-Gym/)
+- [Experience Replay](http://fzruniverse.life/2018/03/25/Experience-Replay/)
 
 ### Reference Repositories:
 
